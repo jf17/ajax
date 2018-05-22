@@ -1,0 +1,55 @@
+<!DOCTYPE html> 
+<html> 
+<head>       
+	<meta charset="utf-8">   
+	<title>ArchFinder - ОАО 'Рога и Копыта'</title>  
+</head>
+<body>
+<br><br>
+<h1>ArchFinder - ОАО 'Рога и Копыта'</h1>  
+<h4>Программа поиска проектов по заданному значению имени в ZIP архиве.</h4>
+<font color="red"><h4>Допускается ввод только БОЛЬШИХ английских букв и цифры.</h4></font>
+<p>Наберите в поле ввода ARCH1 или ARCH2</p>
+<p><b>Введите искомое :</b><br>
+  <font color="red">*</font> <input type="text" size="40" class='alpha-only' id="input_Box" required placeholder="имя проекта" />
+  </p>
+<button id="BT_send">Send AJAX message</button>
+  <div id="response"/>
+</body>
+  <script src="static/js/jquery-3.3.1.js"></script>
+  <script>
+  $('#BT_send').click(function (){
+  var input_value = $('#input_Box').val ()
+  
+  if (input_value) {
+  // is not emtpy
+
+  $('#response').append(input_value + "<br>");
+    $.ajax({
+      url: '/ajax',
+      type: "post",
+      contentType: 'application/json; charset=utf-8',
+      data: JSON.stringify({ Quote:input_value}),
+      dataType: 'json',
+      success: function(r) {
+        $('#response').html(r.Quote);
+      }
+    });
+	}else if (!input_value) {
+	alert( "Поле не должно быть пустым !!" );
+	}
+	
+	
+  });
+  </script>
+   <script>
+   
+$(".alpha-only").on("input", function(){
+  var regexp = /[^0-9A-Z]/g;
+  if($(this).val().match(regexp)){
+    $(this).val( $(this).val().replace(regexp,'') );
+  }
+});
+	
+   </script>
+</html>
